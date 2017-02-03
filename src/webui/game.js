@@ -1,8 +1,10 @@
 "use strict";
 
-let CELL_COLOR = "#afa";
+let CELL_COLOR = "#777";
+let BOARD_GRID_COLOR="#ddd";
 let BOARD_BACKCOLOR = "#fff";
 let neighbours = [[-1, -1], [0, -1], [1, -1], [-1, 0], [1, 0], [-1, 1], [0, 1], [1, 1]];
+let AUTOPLAY_INTERVAL = 100; //ms
 
 let board = document.getElementById("cnvBoard");
 let cells = [];
@@ -72,7 +74,7 @@ function drawBoardBackground() {
         ctx.moveTo(i, 0);
         ctx.lineTo(i, board.height);
     }
-    ctx.strokeStyle = "#ddd";
+    ctx.strokeStyle = BOARD_GRID_COLOR;
     ctx.lineWidth = 1;
     ctx.stroke();
 }
@@ -126,4 +128,15 @@ function evolveCells() {
 function step() {
     evolveCells();
     drawCells();
+}
+
+function chbAutoPlay_Clicked() {
+    let chb = document.getElementById("chbAutoPlay");
+    if (chb.checked) {
+        console.log("SetInterval to ", AUTOPLAY_INTERVAL);
+        window.autoPlayTimerId = setInterval(step, AUTOPLAY_INTERVAL);
+    }
+    else {
+        clearInterval(window.autoPlayTimerId);
+    }
 }
