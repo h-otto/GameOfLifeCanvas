@@ -1,20 +1,30 @@
 "use strict";
 
-let CELL_SIZE = 9;   //egy cella mérete (szélesség és magasság is)
 let CELL_COLOR = "#afa";
 let BOARD_BACKCOLOR = "#fff";
 let neighbours = [[-1, -1], [0, -1], [1, -1], [-1, 0], [1, 0], [-1, 1], [0, 1], [1, 1]];
 
 let board = document.getElementById("cnvBoard");
 let cells = [];
-var rowCount = 0;
-var colCount = 0;
 
+function createNewBoard() {
+    let rowCount = parseInt(document.getElementById("tbRowCount").value);
+    let colCount = parseInt(document.getElementById("tbColCount").value);
+    let cellSize = parseInt(document.getElementById("tbCellSize").value);
 
+    if (rowCount < 1)
+        rowCount = 1;
+    if (colCount < 1)
+        colCount = 1;
+    if (cellSize <= 2)
+        cellSize = 3;
 
-function createNewBoard(rowCount, colCount) {
-    let boardWidth = colCount * (CELL_SIZE + 1) - 1;
-    let boardHeight = rowCount * (CELL_SIZE + 1) - 1;
+    window.rowCount = rowCount;
+    window.colCount = colCount;
+    window.cellSize = cellSize;
+
+    let boardWidth = colCount * (cellSize + 1) - 1;
+    let boardHeight = rowCount * (cellSize + 1) - 1;
 
     board.width = boardWidth;
     board.height = boardHeight;
@@ -26,9 +36,6 @@ function createNewBoard(rowCount, colCount) {
             cells[row][col] = 0;
         }
     }
-
-    window.rowCount = rowCount;
-    window.colCount = colCount;
 
     drawBoardBackground();
 
@@ -57,11 +64,11 @@ function drawBoardBackground() {
 
     //vonalak
     ctx.beginPath();
-    for (let i = CELL_SIZE + 0.5; i < board.height; i += CELL_SIZE + 1) {
+    for (let i = cellSize + 0.5; i < board.height; i += cellSize + 1) {
         ctx.moveTo(0, i);
         ctx.lineTo(board.width, i);
     }
-    for (let i = CELL_SIZE + 0.5; i < board.width; i += CELL_SIZE + 1) {
+    for (let i = cellSize + 0.5; i < board.width; i += cellSize + 1) {
         ctx.moveTo(i, 0);
         ctx.lineTo(i, board.height);
     }
@@ -78,12 +85,12 @@ function drawCells() {
     for (let row = 0; row < rowCount; row++)
         for (let col = 0; col < colCount; col++)
             if (cells[row][col] > 0)
-                ctx.fillRect(col * (CELL_SIZE + 1), row * (CELL_SIZE + 1), CELL_SIZE, CELL_SIZE);
+                ctx.fillRect(col * (cellSize + 1), row * (cellSize + 1), cellSize, cellSize);
     ctx.fillStyle = BOARD_BACKCOLOR;
     for (let row = 0; row < rowCount; row++)
         for (let col = 0; col < colCount; col++)
             if (cells[row][col] === 0)
-                ctx.fillRect(col * (CELL_SIZE + 1), row * (CELL_SIZE + 1), CELL_SIZE, CELL_SIZE);
+                ctx.fillRect(col * (cellSize + 1), row * (cellSize + 1), cellSize, cellSize);
 }
 
 function evolveCells() {

@@ -3,14 +3,23 @@
         <meta charset="UTF-8">
         <title>Game Of Life with Canvas</title>
     </head>
-    <body onload="createNewBoard(50,100)">
+    <body onload="createNewBoard()">
         <center>
             <canvas id="cnvBoard" style="border: #ddd solid 1px;"></canvas>
         </center>
+Sorok száma:
+<input id="tbRowCount" type="number" value="50"/>
+Oszlopok záma:
+<input id="tbColCount" type="number" value="100"/>
+Cella mérete:
+<input id="tbCellSize" type="number" value="9"/>
+<button onclick="createNewBoard()">Létrehoz</button>
+<br/>
+<button onclick="randomBoard(50)">Random (50%)</button>
+<br/>
 <button onclick="step()">Step</button>
-<button onclick="randomBoard(50)">Random</button>
 
 
-        <script src="game.js"></script> 
+        <script src="game.js"></script>
     </body>
 </html>
